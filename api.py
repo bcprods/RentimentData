@@ -22,7 +22,8 @@ def get_post(post_id):
 
 # returns None is post is not found
 def get_post_by_source_id(source_id):
-    return posts.find_one({'id': source_id})
+    test = posts.find_one({'id': source_id})
+    return test
 
 
 def get_posts_by_date_range(start, end):
@@ -41,5 +42,3 @@ def insert_posts(posts_data):
 
 def delete_post(post_id):
     return posts.delete_one({'_id': ObjectId(post_id)})
-
-

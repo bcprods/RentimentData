@@ -31,4 +31,3 @@ posts = get_posts_by_date_range(start, end)
 logger.debug('Posts:')
 for post in posts:
     logger.debug(post)
-

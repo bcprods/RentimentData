@@ -3,6 +3,11 @@ praw.ini
 
 #logs
 *.log
+logs*
+
+#pycache
+__pycache__*
+*.pyc
 
 #venv
 venv/*
