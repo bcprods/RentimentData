@@ -1,12 +1,12 @@
 import praw
+from config import *
 from api import get_post_by_source_id
 from utility import create_reddit_post_dictionary
 import logging
 
 logger = logging.getLogger('Rentiment.' + __name__)
 
-reddit = praw.Reddit('bot1', user_agent='bot1 user agent')
-
+reddit = praw.Reddit(client_id=PRAW_CLIENT_ID, client_secret=PRAW_SECRET, user_agent='bot1 user agent')
 
 def get_reddit_posts(subreddits, count=1000):
 
