@@ -9,7 +9,7 @@ logger.info('Setup logger')
 logger = logging.getLogger('Rentiment.' + __name__)
 
 logger.info('Get posts from reddit...')
-posts_data = get_reddit_posts(REDDIT_CONFIG['test_subreddits'], 10)
+posts_data = get_reddit_posts(REDDIT_CONFIG['test_subreddits'], 1)
 
 logger.info('Insert posts into mongo...')
 insert_posts(posts_data)
