@@ -1,2 +1,11 @@
 #praw
 praw.ini
+
+#logs
+*.log
+
+#pycache
+*__pycache__*
+
+#venv
+venv/*

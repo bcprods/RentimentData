@@ -1,24 +1,32 @@
-from reddit import *
-from api import *
+from reddit import get_reddit_posts
+from api import insert_posts, get_posts, get_posts_by_date_range
+from config import *
+from datetime import datetime
+import logging
+from logs.config import logger
+from plot import plot
 
+logger.info('Setup logger')
+logger = logging.getLogger('Rentiment.' + __name__)
 
-get_crypto_posts()
-get_investing_posts()
+logger.info('Get posts from reddit...')
+posts_data = get_reddit_posts(REDDIT_CONFIG['test_subreddits'], 20)
 
-print('\n---------------\n')
+logger.info('Insert posts into mongo...')
+insert_posts(posts_data)
 
-print('Get posts from reddit...')
-post1 = get_post1()
-post2 = get_post2()
-
-print('Send post data to mongo...')
-insert_post(post1)
-insert_post(post2)
-
-print('Get posts from mongo...')
+logger.info('Get posts from mongo...')
 posts = get_posts()
 
-print('Posts:')
+logger.debug('Posts:')
 for post in posts:
-    print(post)
-    delete_post(post['_id'])
+    logger.debug(post)
+
+start = datetime(2019, 6, 2, 0, 0, 0)
+end = datetime(2019, 6, 5, 0, 0, 0)
+
+logger.info('Get posts from ' + str(start) + ' to ' + str(end))
+
+posts = get_posts_by_date_range(start, end)
+
+plot('Rentiment', 'publish_date', 'text_sentiment', posts)

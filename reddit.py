@@ -1,35 +1,27 @@
-# from sentiment import analyze sentiment
 import praw
 from config import *
+from utility import create_reddit_post_dictionary
+from sentiment import build_sentiment_dictionary
+import logging
+import json
 
-reddit = praw.Reddit('bot1', user_agent='bot1 user agent')
+logger = logging.getLogger('Rentiment.' + __name__)
 
+reddit = praw.Reddit(client_id=PRAW_CLIENT_ID, client_secret=PRAW_SECRET, user_agent='bot1 user agent')
 
-def get_crypto_posts():
+def get_reddit_posts(subreddits, count=1000):
 
-    for sub in REDDIT_CONFIG['crypto_subreddits']:
+    logger.debug('Searching the following subreddits ' + str(subreddits))
+
+    # Build sentiment dictionary here so we don't build it for every posts
+    sentiment_dict = build_sentiment_dictionary()
+
+    post_data = []
+    for sub in subreddits:
         subreddit = reddit.subreddit(sub)
-        print("\n" + subreddit.display_name)
 
-        for submission in subreddit.hot(limit=10):
-            print(submission.title)
+        for submission in subreddit.new(limit=count):
+            post = create_reddit_post_dictionary(submission, subreddit, sentiment_dict)
+            post_data.append(post)
 
-
-def get_investing_posts():
-
-    for sub in REDDIT_CONFIG['investing_subreddits']:
-        subreddit = reddit.subreddit(sub)
-        print("\n" + subreddit.display_name)
-
-        for submission in subreddit.hot(limit=10):
-            print(submission.title)
-
-
-def get_post1():
-    post_data = {'source': 'Reddit', 'author': 'Bob', 'content': 'Bitcoin sucks', 'type': 'post'}
-    return post_data
-
-
-def get_post2():
-    post_data = {'source': 'Reddit', 'author': 'Joe', 'content': 'Bitcoin is going to the moon', 'type': 'post'}
     return post_data
